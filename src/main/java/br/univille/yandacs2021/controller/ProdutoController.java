@@ -22,20 +22,7 @@ public class ProdutoController {
     
     @GetMapping
     public ModelAndView index(){
-        /*Produto prod1 = new Produto();
-        prod1.setDescricao("Produto legal 1");
-        prod1.setDataRegistro(new Date());
-        prod1.setPreco(2000);
-
-        Produto prod2 = new Produto();
-        prod2.setDescricao("Produto legal 2");
-        prod2.setDataRegistro(new Date());
-        prod2.setPreco(5000);*/
-
         List<Produto> listaProdutos = service.getAllProdutos();
-        /*listaProdutos.add(prod1);
-        listaProdutos.add(prod2);*/
-
         return new ModelAndView("produto/index","listaProdutos",listaProdutos);
     }
 }
