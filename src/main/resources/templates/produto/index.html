@@ -26,7 +26,7 @@
                     <td>
                         <a th:href="@{'/produto/alterar/'+${umproduto.id}}" class="btn btn-primary">Alterar</a>
                         <button class="btn btn-danger js-delete"
-                        th:data-id="${umproduto.id}">
+                                th:data-id="${umproduto.id}">
                             Excluir
                         </button>
                     </td>
@@ -39,8 +39,19 @@
     <script type="text/javascript">
         $(document).ready(function() {
             $("#produtos").on("click", ".js-delete", function() {
-                bootbox.confirm("se acredita meu", function() {
-                    
+                let button = $(this)
+                bootbox.confirm("Cê confirma isso ae meu?", function(result) {
+                    if(result) {
+                        $.ajax({
+                            url: "/produto/delete/" + button.attr("data-id"),
+                            method: "GET",
+                            success: function() {
+                                window.location.href= "/produto/"
+                            }
+                        })
+                    } else {
+
+                    }
                 })
             })
         })
