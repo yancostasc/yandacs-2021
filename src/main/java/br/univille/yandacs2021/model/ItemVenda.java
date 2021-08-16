@@ -16,21 +16,25 @@ public class ItemVenda {
     public long getId() {
         return id;
     }
+
     public void setId(long id) {
         this.id = id;
     }
+
     public float getValor() {
         return valor;
     }
+
     public void setValor(float valor) {
         this.valor = valor;
     }
+
     public float getValorDesconto() {
         return valorDesconto;
     }
+
     public void setValorDesconto(float valorDesconto) {
         this.valorDesconto = valorDesconto;
     }
 
-    
 }
