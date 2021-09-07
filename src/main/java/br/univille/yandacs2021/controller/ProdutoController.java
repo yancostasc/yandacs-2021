@@ -29,20 +29,19 @@ public class ProdutoController {
     
     @GetMapping
     public ModelAndView index(){
-        HashMap<String,Object> data = new HashMap<>();
-
         List<Produto> listaProdutos = produtoService.getAllProdutos();
-        data.put("listaProdutos",listaProdutos);
-
-        List<Categoria> listaCategorias = categoriaService.getAllCategorias();
-        data.put("listaCategorias",listaCategorias);
-
-        return new ModelAndView("produto/index", data);
+        return new ModelAndView("produto/index","listaProdutos", listaProdutos);
     }
 
     @GetMapping("/novo")
     public ModelAndView novo(@ModelAttribute Produto produto){
-        return new ModelAndView("produto/form");
+        HashMap<String,Object> dados = new HashMap<>();
+
+        dados.put("produto", produto);
+
+        List<Categoria> listaCategorias = categoriaService.getAllCategorias();
+        dados.put("listaCategorias",listaCategorias);
+        return new ModelAndView("produto/form", dados);
     }
 
     @PostMapping(params = "form")
