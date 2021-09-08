@@ -14,6 +14,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 public class Venda {
@@ -24,13 +25,13 @@ public class Venda {
     private float valorTotal;
 
     @Temporal(value = TemporalType.DATE)
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date data;
 
     @Column(length = 15)
     private String cupom;
 
-    @OneToMany(cascade = CascadeType.ALL)
-
+    @OneToMany(cascade = CascadeType.ALL,orphanRemoval=true)
     @JoinColumn(name = "venda_id")
     private List<ItemVenda> colItemVenda = new ArrayList<ItemVenda>();
     
@@ -64,6 +65,13 @@ public class Venda {
 
     public void setCupom(String cupom) {
         this.cupom = cupom;
+    }
+
+    public List<ItemVenda> getColItemVenda() {
+        return colItemVenda;
+    }
+    public void setColItemVenda(List<ItemVenda> colItemVenda) {
+        this.colItemVenda = colItemVenda;
     }
 
 }
