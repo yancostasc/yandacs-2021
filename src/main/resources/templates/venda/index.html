@@ -19,13 +19,12 @@
                         <td th:text="${umavenda.data}"></td>
                         <td th:text="${umavenda.valorTotal}"></td>
                         <td>
-                            <a th:href="@{'/venda/alterar/'+${umavenda.id}}" class="btn btn-secondary">Alterar</a>
+                            <a th:href="@{'/venda/alterar/'+${umavenda.id}}" class="btn btn-primary">Alterar</a>
+                            <button class="btn btn-danger js-delete"
+                                        th:data-id="${umavenda.id}">
+                                    <span aria-hidden="true">Excluir</span>
+                            </button>
                         </td>
-                        <button class="btn btn-danger js-delete"
-                                    th:data-id="${umavenda.id}">
-                                <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-                                Excluir
-                        </button>
                     </tr>
                 </tbody>
             </table>    
