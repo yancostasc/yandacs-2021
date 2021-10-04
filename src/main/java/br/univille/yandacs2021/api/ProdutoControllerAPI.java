@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import br.univille.yandacs2021.model.Produto;
 import br.univille.yandacs2021.service.ProdutoService;
+import io.swagger.models.Response;
 
 @RestController
 @RequestMapping("/api/v1/produtos")
@@ -25,40 +26,39 @@ public class ProdutoControllerAPI {
     @GetMapping
     public ResponseEntity<List<Produto>> getAll() {
         try {
-            return new ResponseEntity<List<Produto>>(produtoService.getAllProdutos(), HttpStatus.OK);
+            List<Produto> listaProdutos = produtoService.getAllProdutos();
+            return new ResponseEntity<List<Produto>>(listaProdutos, HttpStatus.OK);
         } catch (Exception ex) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Produto> getById(
-        @PathVariable("id") Produto produto) { 
-            try {
-                return new ResponseEntity<Produto>(produto, HttpStatus.OK);
-            } catch (Exception exception) {
-                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    public ResponseEntity<Produto> getById(@PathVariable("id") Produto produto) {
+        try {
+            return new ResponseEntity<Produto>(produto, HttpStatus.OK);
+        } catch (Exception ex) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 
-    @PostMapping()
-    public ResponseEntity<Produto> saveProduct(@RequestBody Produto produto) {
+    @PostMapping
+    public ResponseEntity<Produto> save(@RequestBody Produto produto){
         try {
             produto.setId(0);
             produtoService.save(produto);
-            return new ResponseEntity<Produto>(produto, HttpStatus.CREATED);
-        } catch (Exception exception) {
+            return new ResponseEntity<Produto>(produto,HttpStatus.CREATED);
+        } catch (Exception ex) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Produto> deleteProductById(
-        @PathVariable("id") Produto produto) {
-        try {
+    public ResponseEntity<Produto> deleteById(@PathVariable("id") Produto produto){
+        try{
             produtoService.delete(produto);
-            return new ResponseEntity<Produto>(produto, HttpStatus.OK);
-        } catch (Exception exception) {
+            return new ResponseEntity<Produto>(produto,HttpStatus.OK);
+        }catch(Exception ex){
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

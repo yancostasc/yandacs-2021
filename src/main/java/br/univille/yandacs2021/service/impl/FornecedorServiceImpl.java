@@ -28,4 +28,9 @@ public class FornecedorServiceImpl implements FornecedorService {
         fornecedorRepository.delete(fornecedor);
     }
 
+    @Override
+    public Fornecedor getFornecedor(long id) {
+        return fornecedorRepository.getById(id);
+    }
+
 }

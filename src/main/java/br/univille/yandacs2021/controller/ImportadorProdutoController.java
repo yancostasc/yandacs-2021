@@ -1,41 +1,51 @@
 package br.univille.yandacs2021.controller;
 
-import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.Scanner;
+import java.util.HashMap;
+import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
+
+import br.univille.yandacs2021.model.Fornecedor;
+import br.univille.yandacs2021.model.Produto;
+import br.univille.yandacs2021.service.FornecedorService;
+import br.univille.yandacs2021.service.ProdutoService;
 
 @Controller
 @RequestMapping("/import-produto")
 public class ImportadorProdutoController {
     
-    
+    @Autowired
+    private FornecedorService fornecedorService;
+
+    @Autowired
+    private ProdutoService produtoService;
+
     @GetMapping
-    public ModelAndView index(){
-        try {
-            URL url = new URL("http://f423-186-237-248-5.ngrok.io/api/v1/produtos");
-            HttpURLConnection connection = (HttpURLConnection)url.openConnection();
+    public ModelAndView index(@ModelAttribute Fornecedor fornecedor){
 
-            int responseCode = connection.getResponseCode();
-            connection.setRequestMethod("GET");
-            connection.connect();
-            Scanner scanner = new Scanner(url.openStream());
+        List<Fornecedor> listaFornecedor = fornecedorService.getAllFornecedores();
 
-            while(scanner.hasNext()) {
-                System.out.println(scanner.nextLine());
-            }
-        } catch (MalformedURLException urlException){
-            urlException.printStackTrace();
-        } catch (IOException ioException) {
-            ioException.printStackTrace();
-        }
-        return new ModelAndView("/importador-produto/index");
+        return new ModelAndView("/importproduto/index", "listafornecedor", listaFornecedor);
+    }
+
+    @PostMapping
+    public ModelAndView busca(Fornecedor fornecedor){
+
+        fornecedor = fornecedorService.getFornecedor(fornecedor.getId());
+        List<Produto> listaProduto = produtoService.importProduto(fornecedor);
+        List<Fornecedor> listaFornecedor = fornecedorService.getAllFornecedores();
+
+        HashMap<String,Object> dados = new HashMap<>();
+        dados.put("listafornecedor", listaFornecedor);
+        dados.put("listaproduto", listaProduto);
+
+        return new ModelAndView("/importproduto/index", dados);
     }
 
 }
