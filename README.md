@@ -9,6 +9,7 @@ As seguintes ferramentas foram usadas na construção do projeto:
 
 - Spring Boot
 - Arquitetura MVC
+- Arquitetura MSC
 - SQL
 
 ### Features
